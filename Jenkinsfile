@@ -31,17 +31,16 @@ pipeline{
                         version: '0.0.1-SNAPSHOT'
             }
         }
-        stage('deploy'){
-            steps{
-                deploy adapters: [
-                    tomcat11(
-                        credentialsId: 'tomcat_cred_id', 
-                        path: '', 
-                        url: 'http://54.221.130.78:8082/')
-                        ], 
-                        contextPath: '/', 
-                        war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
-            }
-        }
+        stage('deploy') {
+    steps {
+        step([$class: 'DeployPublisher',
+            adapters: [[$class: 'Tomcat9xAdapter',
+                credentialsId: 'tomcat_cred_id',
+                url: 'http://54.221.130.78:8082']],
+            contextPath: '/',
+            war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
+        ])
+    }
+}
     }
 }
