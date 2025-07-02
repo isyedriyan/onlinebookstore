@@ -37,10 +37,10 @@ pipeline{
                     tomcat9(
                         credentialsId: 'Tomcat', 
                         path: '', 
-                        url: 'http://3.110.172.100:8090/')
+                        url: 'http://54.221.130.78:8082/')
                         ], 
-                        contextPath: null, 
-                        war: '**/*.war'
+                        contextPath: '/', 
+                        war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
             }
         }
     }
