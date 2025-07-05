@@ -25,7 +25,7 @@ pipeline {
                     ]],
                     credentialsId: 'nexus_credential',
                     groupId: 'com.bookstore',
-                    nexusUrl: '18.234.162.140:8081',
+                    nexusUrl: '44.200.168.39:8081',
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: 'maven-snapshots',
@@ -41,7 +41,7 @@ pipeline {
                     adapters: [[
                         $class: 'Tomcat9xAdapter',
                         credentialsId: 'tomcat_cred_id',
-                        url: 'http://localhost:8085'
+                        url: 'http://localhost:8082'
                     ]],
                     contextPath: '/',
                     war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
