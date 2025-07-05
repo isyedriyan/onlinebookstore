@@ -25,7 +25,7 @@ pipeline {
                     ]],
                     credentialsId: 'nexus_credential',
                     groupId: 'com.bookstore',
-                    nexusUrl: 'http://18.234.162.140:8081',
+                    nexusUrl: '18.234.162.140:8081',
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: 'maven-snapshots',
