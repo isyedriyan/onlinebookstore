@@ -41,7 +41,7 @@ pipeline {
                     adapters: [[
                         $class: 'Tomcat9xAdapter',
                         credentialsId: 'tomcat_cred_id',
-                        url: 'http://18.234.162.140:8085'
+                        url: 'http://localhost:8085'
                     ]],
                     contextPath: '/',
                     war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
