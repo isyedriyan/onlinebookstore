@@ -1,46 +1,52 @@
-pipeline{
+pipeline {
     agent any
 
-    stages{
-        stage('scm'){
-            steps{
+    stages {
+        stage('SCM Checkout') {
+            steps {
                 checkout scm
             }
         }
-        stage('build'){
-            steps{
+
+        stage('Build with Maven') {
+            steps {
                 sh 'mvn clean install'
             }
         }
-        stage('nexus'){
-            steps{
-                nexusArtifactUploader artifacts: [
-                    [
-                        artifactId: 'onlinebookstore', 
-                        classifier: '', 
-                        file: 'target/onlinebookstore-0.0.1-SNAPSHOT.war', 
+
+        stage('Upload to Nexus') {
+            steps {
+                nexusArtifactUploader(
+                    artifacts: [[
+                        artifactId: 'onlinebookstore',
+                        classifier: '',
+                        file: 'target/onlinebookstore-0.0.1-SNAPSHOT.war',
                         type: 'war'
-                        ]
-                    ], 
-                        credentialsId: 'nexus_credential', 
-                        groupId: 'com.bookstore', 
-                        nexusUrl: '18.234.162.140:8081/', 
-                        nexusVersion: 'nexus3', 
-                        protocol: 'http', 
-                        repository: 'maven-snapshots', 
-                        version: '0.0.1-SNAPSHOT'
+                    ]],
+                    credentialsId: 'nexus_credential',
+                    groupId: 'com.bookstore',
+                    nexusUrl: 'http://18.234.162.140:8081/',
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'maven-snapshots',
+                    version: '0.0.1-SNAPSHOT'
+                )
             }
         }
-        stage('deploy') {
-    steps {
-        step([$class: 'DeployPublisher',
-            adapters: [[$class: 'Tomcat9xAdapter',
-                credentialsId: 'tomcat_cred_id',
-                url: 'http://18.234.162.140:8082']],
-            contextPath: '/',
-            war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
-        ])
-    }
-}
+
+        stage('Deploy to Tomcat') {
+            steps {
+                step([
+                    $class: 'DeployPublisher',
+                    adapters: [[
+                        $class: 'Tomcat9xAdapter',
+                        credentialsId: 'tomcat_cred_id',
+                        url: 'http://18.234.162.140:8085'
+                    ]],
+                    contextPath: '/',
+                    war: 'target/onlinebookstore-0.0.1-SNAPSHOT.war'
+                ])
+            }
+        }
     }
 }
